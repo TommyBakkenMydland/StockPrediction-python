@@ -6,6 +6,7 @@
 
 # pip install cython
 # pip install -U scikit-learn
+# pip install quandl
 
 import quandl
 import numpy as np
@@ -56,3 +57,25 @@ svr_rbf.fit(x_train, y_train)
 # The best possible score 1.0
 svm_confidence = svr_rbf.score(x_test, y_test)
 print("svm confidence: ", svm_confidence)
+
+### Create and train the Linear Regression Model
+lr = LinearRegression()
+# Train the model
+lr.fit(x_train, y_train)
+
+### Testing Model: Score return the coefficient of determination of R^2 of the prediction.
+# The best possible score 1.0
+lr_confidence = lr.score(x_test, y_test)
+print("lr confidence: ", lr_confidence)
+
+### Set x_forecast equal to the last 30 rows of the original data set from Adj. Close Column
+x_forcast = np.array(df.drop(['Prediction'], 1))[-forecast_out:]
+print(x_forcast)
+
+### Print linear regression model the prediction for the 'n' days
+lr_prediction = lr.predict(x_forcast)
+print(lr_prediction)
+
+### Print support vector regressor model the prediction for the 'n' days
+svm_prediction = svr_rbf.predict(x_forcast)
+print(svm_prediction)
